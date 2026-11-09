@@ -1,69 +1,144 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import { Navbar } from "@/components/Navbar";
+import { HeroSection } from "@/components/HeroSection";
+import { ProductsSection } from "@/components/ProductsSection";
+import { PricingSection } from "@/components/PricingSection";
+import { PlacementSection } from "@/components/PlacementSection";
+import { ServicesSection } from "@/components/ServicesSection";
+import { EngagementModelSection } from "@/components/EngagementModelSection";
+import { SolutionsSection } from "@/components/SolutionsSection";
+import { FaqSection } from "@/components/FaqSection";
+import { ContactSection } from "@/components/ContactSection";
+import { ConnectionGuidesSection } from "@/components/ConnectionGuidesSection";
+import { Footer } from "@/components/Footer";
+import { InteractiveVeraSimulator } from "@/components/InteractiveVeraSimulator";
+import { BrandGuideModal } from "@/components/BrandGuideModal";
+import { GovernanceAndLegalHub } from "@/components/GovernanceAndLegalHub";
+import { LaunchChecklistModal } from "@/components/LaunchChecklistModal";
+import { BookingModal } from "@/components/BookingModal";
+import { SITE_CONFIG } from "@/config/site";
+
+export default function HomePage() {
+  const [bookingUrl, setBookingUrl] = useState<string>(SITE_CONFIG.bookingUrl);
+  const [isVeraOpen, setIsVeraOpen] = useState(false);
+  const [isBrandGuideOpen, setIsBrandGuideOpen] = useState(false);
+  const [isLegalHubOpen, setIsLegalHubOpen] = useState(false);
+  const [legalInitialTab, setLegalInitialTab] = useState<string>("privacy");
+  const [isChecklistOpen, setIsChecklistOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
+  const handleOpenLegalHub = (tab: string = "privacy") => {
+    setLegalInitialTab(tab);
+    setIsLegalHubOpen(true);
+  };
+
+  const handleOpenBooking = () => {
+    setIsBookingModalOpen(true);
+  };
+
+  const handleOpenGuide = (guideKey: string) => {
+    const el = document.getElementById("guides");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen flex flex-col bg-white text-[#1F2937]">
+      {/* Navigation Bar */}
+      <Navbar
+        onOpenVeraDemo={() => setIsVeraOpen(true)}
+        onOpenChecklist={() => setIsChecklistOpen(true)}
+        onOpenBrandGuide={() => setIsBrandGuideOpen(true)}
+        onOpenLegalHub={handleOpenLegalHub}
+        bookingUrl={bookingUrl}
+      />
+
+      <main className="flex-1">
+        {/* Section 1: Hero & About (White / Light Background) */}
+        <HeroSection
+          onOpenBooking={handleOpenBooking}
+          onOpenVeraDemo={() => setIsVeraOpen(true)}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        {/* Section 2: Products & Behavior (Deep Navy Background #14304F) */}
+        <ProductsSection
+          onOpenVeraDemo={() => setIsVeraOpen(true)}
+          onOpenGuide={handleOpenGuide}
+        />
+
+        {/* Section 3: Pricing (Standard & Bespoke) (White / Light Background) */}
+        <PricingSection
+          onOpenBooking={handleOpenBooking}
+          onOpenGuide={handleOpenGuide}
+        />
+
+        {/* Section 4: Placement Referral & Resource Augmentation (Deep Navy Background #14304F) */}
+        <PlacementSection />
+
+        {/* Section 5: Services (Our Key Offerings) (White / Light Background) */}
+        <ServicesSection onOpenBooking={handleOpenBooking} />
+
+        {/* Section 6: Engagement Model (Assess, Advise, Transform, Manage) (Deep Navy Background #14304F) */}
+        <EngagementModelSection onOpenBooking={handleOpenBooking} />
+
+        {/* Section 7: Solutions by Business Type (White / Light Background) */}
+        <SolutionsSection onOpenBooking={handleOpenBooking} />
+
+        {/* Section 8: FAQ (Deep Navy Background #14304F) */}
+        <FaqSection />
+
+        {/* Section 9: Contact and Booking (White / Light Background) */}
+        <ContactSection
+          onOpenBooking={handleOpenBooking}
+          bookingUrl={bookingUrl}
+        />
+
+        {/* Section 10: Step-by-Step Connection Guides & Launch Checklist (Deep Navy Background #14304F) */}
+        <ConnectionGuidesSection
+          onOpenVeraDemo={() => setIsVeraOpen(true)}
+          bookingUrl={bookingUrl}
+          onUpdateBookingUrl={setBookingUrl}
+        />
       </main>
+
+      {/* Footer (Deep Navy Background #14304F) */}
+      <Footer
+        onOpenLegalHub={handleOpenLegalHub}
+        onOpenBrandGuide={() => setIsBrandGuideOpen(true)}
+        onOpenChecklist={() => setIsChecklistOpen(true)}
+        onOpenVeraDemo={() => setIsVeraOpen(true)}
+      />
+
+      {/* Interactive Modals & Sandboxes */}
+      <InteractiveVeraSimulator
+        isOpen={isVeraOpen}
+        onClose={() => setIsVeraOpen(false)}
+      />
+
+      <BrandGuideModal
+        isOpen={isBrandGuideOpen}
+        onClose={() => setIsBrandGuideOpen(false)}
+      />
+
+      <GovernanceAndLegalHub
+        isOpen={isLegalHubOpen}
+        onClose={() => setIsLegalHubOpen(false)}
+        initialTab={legalInitialTab}
+      />
+
+      <LaunchChecklistModal
+        isOpen={isChecklistOpen}
+        onClose={() => setIsChecklistOpen(false)}
+      />
+
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        bookingUrl={bookingUrl}
+      />
     </div>
   );
 }
